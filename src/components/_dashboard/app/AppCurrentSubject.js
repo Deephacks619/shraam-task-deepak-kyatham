@@ -1,12 +1,16 @@
 import { Card, CardHeader, Alert } from '@mui/material';
 
-export default function AppCurrentSubject() {
-  //const { data } = props;
+export default function AppCurrentSubject(props) {
+  const { data } = props;
+
+  console.log(props);
+
+  const text_data = JSON.stringify(data);
 
   return (
     <Card>
       <CardHeader title="Current Subject" />
-      <Alert severity="info">Replace this with the data coming from API!</Alert>
+      <Alert severity="info">{text_data}</Alert>
     </Card>
   );
 }

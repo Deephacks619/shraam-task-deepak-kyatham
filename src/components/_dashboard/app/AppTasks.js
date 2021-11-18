@@ -1,5 +1,7 @@
+import React,{useState} from 'react';
 import PropTypes from 'prop-types';
 import { Form, FormikProvider, useFormik } from 'formik';
+
 // material
 import {
   Box,
@@ -13,6 +15,8 @@ import {
 
 // ----------------------------------------------------------------------
 
+
+
 const TASKS = [
   'Create FireStone Logo',
   'Add SCSS and JS files if required',
@@ -21,6 +25,7 @@ const TASKS = [
   'Sprint Showcase'
 ];
 
+
 // ----------------------------------------------------------------------
 
 TaskItem.propTypes = {
@@ -28,6 +33,8 @@ TaskItem.propTypes = {
   checked: PropTypes.bool,
   formik: PropTypes.object
 };
+
+
 
 function TaskItem({ task, checked, formik, ...other }) {
   const { getFieldProps } = formik;
@@ -57,6 +64,24 @@ function TaskItem({ task, checked, formik, ...other }) {
 }
 
 export default function AppTasks() {
+
+
+  const [tasks,settasks]=useState(TASKS);
+
+  const [inputText,setinputText]=useState("");
+
+  function handleTasks(){
+    
+    const current_text=inputText.trim();
+    if(current_text===""){
+      return
+    }
+
+    const newList = tasks.concat(inputText);
+    settasks(newList);
+    setinputText('');
+  }
+
   const formik = useFormik({
     initialValues: {
       checked: [TASKS[2]]
@@ -74,8 +99,14 @@ export default function AppTasks() {
       <Box sx={{ px: 3, py: 1 }}>
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            {TASKS.map((task) => (
+
+          <input type="text" placeholder="enter task" value={inputText} onChange={(e)=>setinputText(e.target.value)}></input>
+
+          <button type="buttons" onClick={handleTasks}>Add Task</button>
+
+            {tasks.map((task,taskid) => (
               <TaskItem
+                key={taskid}
                 task={task}
                 formik={formik}
                 checked={values.checked.includes(task)}

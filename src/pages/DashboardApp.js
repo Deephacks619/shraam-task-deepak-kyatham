@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+//import axios from 'axios';
 // material
 import { Box, Grid, Container, Typography } from '@mui/material';
 // components
@@ -18,12 +18,18 @@ import {
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
-  const [data, setData] = useState('Not fetched data!');
+  const [data, setData] = useState('Not fetched data!')
 
-  useEffect(async () => {
-    const fetchedData =  axios.get('https://dog.ceo/api/breeds/list/all');
-    setData(fetchedData);
-  });
+  useEffect(() => {
+    getApi();
+  },[]);
+
+  const getApi = async()=>{
+    const fetchedData = await fetch('https://dog.ceo/api/breeds/list/all');
+    const data=await fetchedData.json();
+  //  console.log(data);
+    setData(data);
+  }
 
   return (
     <Page title="Dashboard | Minimal-UI">
